@@ -7,7 +7,7 @@ import os
 
 # توکن تلگرام
 TOKEN = "1073308116:AAH0mweKwZDPjep9bXq9AQ0Sa6psaP4Q9_k"
-CHAT_ID = @praiceday
+CHAT_ID = "@praiceday"
 
 bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
