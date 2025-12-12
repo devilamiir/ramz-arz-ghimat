@@ -23,32 +23,28 @@ def get_prices():
         golds = requests.get(API_GOLDS, timeout=10).json()
         crypto = requests.get(API_CRYPTO, timeout=10).json()
 
-        # تاریخ شمسی یا میلادی از یکی از فیلدها
         updated = currencies.get("usd", {}).get("updated_at", "")
 
         msg = (
-            f"💵 ارزها:\n"
-            f"🇺🇸 دلار آمریکا: {currencies.get('usd', {}).get('sell', 'ناموجود'):,}\n"
-            f"🇺🇸 تتر: {crypto.get('tether', {}).get('sell', 'ناموجود'):,}\n"
-            f"🇪🇺 یورو: {currencies.get('eur', {}).get('sell', 'ناموجود'):,}\n"
-            f"🇬🇧 پوند انگلیس: {currencies.get('gbp', {}).get('sell', 'ناموجود'):,}\n"
-            f"🇨🇦 دلار کانادا: {currencies.get('cad', {}).get('sell', 'ناموجود'):,}\n"
-            f"🇦🇪 درهم امارات: {currencies.get('aed', {}).get('sell', 'ناموجود'):,}\n"
-            f"🇹🇷 لیر ترکیه: {currencies.get('try', {}).get('sell', 'ناموجود'):,}\n"
-            f"🇷🇺 روبل روسیه: {currencies.get('rub', {}).get('sell', 'ناموجود'):,}\n"
-            f"🇺🇸 دلار صرافی ملی: {currencies.get('usd_national', {}).get('sell', 'ناموجود'):,}\n\n"
+            f"🇺🇸 دلار آمریکا: {currencies.get('usd', {}).get('sell', 0):,}\n"
+            f"🇺🇸 تتر: {crypto.get('tether', {}).get('sell', 0):,}\n"
+            f"🇪🇺 یورو: {currencies.get('eur', {}).get('sell', 0):,}\n"
+            f"🇬🇧 پوند انگلیس: {currencies.get('gbp', {}).get('sell', 0):,}\n"
+            f"🇨🇦 دلار کانادا: {currencies.get('cad', {}).get('sell', 0):,}\n"
+            f"🇦🇪 درهم امارات: {currencies.get('aed', {}).get('sell', 0):,}\n"
+            f"🇹🇷 لیر ترکیه: {currencies.get('try', {}).get('sell', 0):,}\n"
+            f"🇷🇺 روبل روسیه: {currencies.get('rub', {}).get('sell', 0):,}\n"
+            f"🇺🇸 دلار صرافی ملی: {currencies.get('usd_national', {}).get('sell', 0):,}\n\n"
 
-            f"🟡 طلا و سکه:\n"
-            f"سکه امامی: {golds.get('seke', {}).get('price', 'ناموجود'):,}\n"
-            f"تمام سکه: {golds.get('tamam', {}).get('price', 'ناموجود'):,}\n"
-            f"نیم سکه: {golds.get('nim', {}).get('price', 'ناموجود'):,}\n"
-            f"ربع سکه: {golds.get('rob', {}).get('price', 'ناموجود'):,}\n"
-            f"گرم طلا: {golds.get('geram18', {}).get('price', 'ناموجود'):,}\n"
-            f"مثقال طلا: {golds.get('mesghal', {}).get('price', 'ناموجود'):,}\n"
-            f"انس طلا: $ {golds.get('ounce', {}).get('price', 'ناموجود'):,}\n\n"
+            f"🟡 سکه امامی: {golds.get('seke', {}).get('price', 0):,}\n"
+            f"🟡 تمام سکه: {golds.get('tamam', {}).get('price', 0):,}\n"
+            f"🟡 نیم سکه: {golds.get('nim', {}).get('price', 0):,}\n"
+            f"🟡 ربع سکه: {golds.get('rob', {}).get('price', 0):,}\n"
+            f"🟡 گرم طلا: {golds.get('geram18', {}).get('price', 0):,}\n"
+            f"🟡 مثقال طلا: {golds.get('mesghal', {}).get('price', 0):,}\n"
+            f"🟡 انس طلا: $ {golds.get('ounce', {}).get('price', 0):,}\n\n"
 
-            f"💰 کریپتو:\n"
-            f"بیت کوین: $ {crypto.get('bitcoin', {}).get('sell', 'ناموجود'):,}\n\n"
+            f"💰 بیت کوین: $ {crypto.get('bitcoin', {}).get('sell', 0):,}\n\n"
 
             f"📮 {updated}\n"
             f"#طلا #دلار #بیتکوین #سکه"
@@ -57,6 +53,7 @@ def get_prices():
     except Exception as e:
         print("API Error:", e)
         return f"⚠️ خطا در API: {e}"
+
 def auto_send():
     while True:
         bot.send_message(CHAT_ID, get_prices())
