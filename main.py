@@ -13,9 +13,7 @@ bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
 
 # آدرس‌های API جدید
-API_CURRENCIES = "https://api.alanchand.com/?type=currencies&token=AdVB8dhKJQJ0jGaBKHhe"
-API_GOLDS = "https://api.alanchand.com/?type=golds&token=AdVB8dhKJQJ0jGaBKHhe"
-API_CRYPTO = "https://api.alanchand.com/?type=crypto&token=AdVB8dhKJQJ0jGaBKHhe"
+API_CURRENCIES = "https://candobots.ir/api/arzlive-api.php?currency=usdt,btc,ton,not,paxg"
 
 def get_prices():
     try:
