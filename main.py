@@ -10,31 +10,45 @@ TOKEN = "1073308116:AAH0mweKwZDPjep9bXq9AQ0Sa6psaP4Q9_k"
 CHAT_ID = "@praiceday"
 
 bot = telebot.TeleBot(TOKEN)
-app = Flask(__name__)
+app = Flask(name)
 
-# آدرس‌های API جدید
-API_CURRENCIES = "https://candobots.ir/api/arzlive-api.php?currency=usdt,btc,ton,not,paxg"
+# آدرس API جدید
+API_CRYPTO = "https://candobots.ir/api/arzlive-api.php?currency=usdt,btc,ton,not,paxg"
 
 def get_prices():
     try:
-        currencies = requests.get(API_CURRENCIES, timeout=10).json()
-        golds = requests.get(API_GOLDS, timeout=10).json()
-        crypto = requests.get(API_CRYPTO, timeout=10).json()
-
-        updated = currencies.get("usd", {}).get("updated_at", "")
+        data = requests.get(API_CRYPTO, timeout=10).json()
+        print("API Response:", data)  # لاگ برای Railway
 
         msg = (
-            f"🇺🇸 دلار آمریکا: {currencies.get('usd', {}).get('sell', 0):,}\n"
-            f"🇺🇸 تتر: {crypto.get('tether', {}).get('sell', 0):,}\n"
-            f"🇪🇺 یورو: {currencies.get('eur', {}).get('sell', 0):,}\n"
-            f"🇬🇧 پوند انگلیس: {currencies.get('gbp', {}).get('sell', 0):,}\n"
-            f"🇨🇦 دلار کانادا: {currencies.get('cad', {}).get('sell', 0):,}\n"
-            f"🇦🇪 درهم امارات: {currencies.get('aed', {}).get('sell', 0):,}\n"
-            f"🇹🇷 لیر ترکیه: {currencies.get('try', {}).get('sell', 0):,}\n"
-            f"🇷🇺 روبل روسیه: {currencies.get('rub', {}).get('sell', 0):,}\n"
-            f"🇺🇸 دلار صرافی ملی: {currencies.get('usd_national', {}).get('sell', 0):,}\n\n"
+            f"💰 کریپتو:\n"
+            f"🇺🇸 تتر (USDT): {data.get('usdt', {}).get('price', 'ناموجود'):,}\n"
+            f"💰 بیت کوین (BTC): {data.get('btc', {}).get('price', 'ناموجود'):,}\n"
+            f"💎 تون کوین (TON): {data.get('ton', {}).get('price', 'ناموجود'):,}\n"
+            f"🎮 نات کوین (NOT): {data.get('not', {}).get('price', 'ناموجود'):,}\n"
+            f"🟡 گلد (PAXG): {data.get('paxg', {}).get('price', 'ناموجود'):,}\n\n"
+            f"📮 {data.get('usdt', {}).get('updated_at', '')}\n"
+            f"#کریپتو #بیتکوین #تتر #TON #NOT #PAXG"
+        )
+        return msg
+    except Exception as e:
+        print("API Error:", e)
+        return f"⚠️ خطا در API: {e}"
 
-            f"🟡 سکه امامی: {golds.get('seke', {}).get('price', 0):,}\n"
+def auto_send():
+    while True:
+        bot.send_message(CHAT_ID, get_prices())
+        time.sleep(600)  # هر ۱۰ دقیقه
+
+threading.Thread(target=auto_send, daemon=True).start()
+
+@app.route("/")
+def home():
+    return "Bot Running Successfully"
+
+if name == "main":
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)            f"🟡 سکه امامی: {golds.get('seke', {}).get('price', 0):,}\n"
             f"🟡 تمام سکه: {golds.get('tamam', {}).get('price', 0):,}\n"
             f"🟡 نیم سکه: {golds.get('nim', {}).get('price', 0):,}\n"
             f"🟡 ربع سکه: {golds.get('rob', {}).get('price', 0):,}\n"
