@@ -38,7 +38,7 @@ def get_prices():
 def auto_send():
     while True:
         bot.send_message(CHAT_ID, get_prices())
-        time.sleep(600)  # هر ۱۰ دقیقه
+        time.sleep(300)  # هر ۱۰ دقیقه
 
 threading.Thread(target=auto_send, daemon=True).start()
 
@@ -69,7 +69,7 @@ if name == "main":
 def auto_send():
     while True:
         bot.send_message(CHAT_ID, get_prices())
-        time.sleep(600)  # هر ۱۰ دقیقه
+        time.sleep(300)  # هر ۱۰ دقیقه
 
 threading.Thread(target=auto_send, daemon=True).start()
 
